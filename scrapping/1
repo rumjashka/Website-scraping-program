@@ -1,0 +1,19 @@
+import requests
+from bs4 import BeautifulSoup
+
+
+tag_manager_presented = False
+request = requests.get(' http://www.terbergleasing.nl')
+soup = BeautifulSoup(request.content, "lxml")
+
+for tag_script in soup.find_all('script'):
+    src = tag_script.get('src')
+
+    if src is None:
+        continue
+
+    if src.startswith('https://www.googletagmanager.com/gtm.js'):
+        tag_manager_presented = True
+        break
+
+print(tag_manager_presented)
